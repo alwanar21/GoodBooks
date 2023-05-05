@@ -8,12 +8,6 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    // apiKey: "AIzaSyDL1wabd3uFCcqUl3h4eovuIUqDQdwW_Ns",
-    // authDomain: "goodbooks-617fb.firebaseapp.com",
-    // projectId: "goodbooks-617fb",
-    // storageBucket: "goodbooks-617fb.appspot.com",
-    // messagingSenderId: "840324907933",
-    // appId: "1:840324907933:web:523398059322808a24a574"
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
