@@ -2,7 +2,7 @@
 
 export default function EmptyState() {
     return (
-        <section className="py-4 bg-neutral-50 overflow-hidden min-h-[300px] pt-[130px]">
+        <section className="py-4 bg-white overflow-hidden min-h-[300px] pt-[130px]">
             <div className="container px-4 mx-auto ">
                 <div className="max-w-lg mx-auto text-center">
                     <h2 className="font-heading mb-3 text-2xl text-secondary font-semibold">

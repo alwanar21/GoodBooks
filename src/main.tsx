@@ -21,6 +21,7 @@ import BooksUser from "./pages/user/BooksUser";
 import BookDetailUser from "./pages/user/BookDetailUser";
 import BooksAdmin from "./pages/admin/BooksAdmin";
 import BookDetailAdmin from "./pages/admin/BookDetailAdmin";
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const router = createBrowserRouter(
@@ -30,7 +31,7 @@ const router = createBrowserRouter(
         <Route index element={< BooksUser />} />
         <Route path="book/:id" element={<BookDetailUser />} />
       </Route>
-      <Route path="admin" element={<AdminRoot />} >
+      <Route path="admin" element={<ProtectedRoute><AdminRoot /></ProtectedRoute>} >
         <Route index element={<BooksAdmin />} />
         <Route path="book/:id" element={<BookDetailAdmin />} />
         <Route path="addBook" element={<AddBook />} />

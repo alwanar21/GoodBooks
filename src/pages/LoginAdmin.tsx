@@ -1,5 +1,11 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Resolver, useForm } from "react-hook-form";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
+import { User } from 'firebase/auth'
+import { useNavigate } from "react-router-dom";
+import { useUserAuth } from "../context/UserAuthContext";
+import Swal from "sweetalert2";
 
 type FormValues = {
     email: string;
@@ -10,6 +16,8 @@ type FormValues = {
 export default function LoginAdmin() {
     const [isPassword, setIsPassword] = useState(true)
     const [typePassword, setTypePassword] = useState("password")
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const navigate = useNavigate()
 
     //show & hide password
     const showPassword = () => {
@@ -20,11 +28,43 @@ export default function LoginAdmin() {
             setTypePassword("password")
         }
     }
+    const savedUser = localStorage.getItem("user");
+    const user = savedUser ? JSON.parse(savedUser) : null;
+    useEffect(() => {
+        if (savedUser) {
+            navigate("/admin")
+        }
+    }, []);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const onSubmit = handleSubmit((data) => {
+
+        signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                // Signed in
+
+                const user = userCredential.user;
+                localStorage.setItem("user", JSON.stringify(user));
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Berhasil',
+                    text: 'Selamat datang di goodBooks',
+                    confirmButtonText: 'OK'
+                });
+                navigate("/admin")
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: 'Periksa kembali email dan password Anda',
+                    confirmButtonText: 'OK'
+                });
+                const errorCode: string = error.code;
+                const errorMessage: string = error.message;
+            });
+
         console.log(data)
-        reset();
     });
 
 

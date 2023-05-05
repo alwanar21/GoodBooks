@@ -33,6 +33,7 @@ export default function BookDetailAdmin() {
                 if (result.isConfirmed) {
                     await deleteDocById(id);
                     await deleteFileByPath(sampul);
+                    navigate("/admin", { replace: true });
                     await Swal.fire({
                         title: 'Berhasil',
                         text: 'Data berhasil dihapus',
@@ -40,7 +41,6 @@ export default function BookDetailAdmin() {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK'
                     });
-                    navigate("/admin", { replace: true });
                 } else {
                     await Swal.fire({
                         title: 'Batal Hapus',
