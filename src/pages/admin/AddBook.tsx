@@ -20,6 +20,7 @@ const schema = yup.object({
     ratings: yup.number().typeError('input harus berupa angka').positive().integer().min(1, "input harus sama dengan atau lebih dari 1")
         .max(10, "harus sama dengan atau kurang dari 10").required('input harus berupa angka'),
     sinopsis: yup.string().required("field harus diisi"),
+    review: yup.string().required("field harus diisi"),
 }).required();
 type FormData = yup.InferType<typeof schema>;
 
@@ -183,6 +184,25 @@ export default function AddBook() {
                             />
                         </div>
                         <p className='mt-1 text-red-400'>{errors.sinopsis?.message}</p>
+                        <div className='w-full h-80 md:col-span-5'>
+                            <label htmlFor="review">Review </label>
+                            <Controller
+                                name="review"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value } }) => (
+                                    <>
+                                        <ReactQuill
+                                            className="h-60 border-gray-200 mt-1"
+                                            theme="snow"
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                    </>
+                                )}
+                            />
+                        </div>
+                        <p className='mt-1 text-red-400'>{errors.review?.message}</p>
                         <div className="md:col-span-5 text-right">
                             <div className="inline-flex items-end">
                                 <button type='submit' className="bg-[#409D69]  hover:bg-[#2D7C50] duration-300 text-white font-bold py-2 px-4 rounded">

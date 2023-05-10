@@ -2,9 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Resolver, useForm } from "react-hook-form";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { User } from 'firebase/auth'
 import { useNavigate } from "react-router-dom";
-import { useUserAuth } from "../context/UserAuthContext";
 import Swal from "sweetalert2";
 
 type FormValues = {
@@ -16,7 +14,6 @@ type FormValues = {
 export default function LoginAdmin() {
     const [isPassword, setIsPassword] = useState(true)
     const [typePassword, setTypePassword] = useState("password")
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const navigate = useNavigate()
 
     //show & hide password

@@ -10,6 +10,7 @@ export type Book = {
     sampul: string,
     ratings: number,
     sinopsis: string,
+    review: string
 };
 
 export type AddBook = {
@@ -21,6 +22,7 @@ export type AddBook = {
     sampul: string | null,
     ratings: number,
     sinopsis: string,
+    review: string,
 };
 
 export type updateBook = {
@@ -32,6 +34,7 @@ export type updateBook = {
     link?: string | undefined;
     ratings?: number | undefined;
     sinopsis?: string | undefined;
+    review?: string | undefined;
 }
 
 
@@ -49,4 +52,14 @@ export interface SourceObject {
 
 export interface NewObject {
     [key: string]: any;
+}
+
+export interface ReadMoreProps {
+    children: string;
+    maxWords: number;
+}
+
+export interface ReadMoreQuillProps {
+    text: string;
+    maxWords: number;
 }

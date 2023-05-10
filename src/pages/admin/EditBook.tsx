@@ -35,6 +35,7 @@ const schema = yup.object({
         .max(10, "harus sama dengan atau kurang dari 10").transform((value, originalValue) => (originalValue.trim() === '' ? undefined : value))
         .test('isNumber', 'Input harus berupa angka', (value) => !value || !isNaN(value)),
     sinopsis: yup.string().typeError("field harus berupa string"),
+    review: yup.string().typeError("field harus berupa string"),
 }).required();
 type FormData = yup.InferType<typeof schema>;
 
@@ -248,6 +249,24 @@ export default function EditBook() {
                             <label htmlFor="sinopsis">Sinopsis </label>
                             <Controller
                                 name="sinopsis"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value } }) => (
+                                    <>
+                                        <ReactQuill
+                                            className="h-60 border-gray-200 mt-1"
+                                            theme="snow"
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                    </>
+                                )}
+                            />
+                        </div>
+                        <div className='w-full h-80 md:col-span-5'>
+                            <label htmlFor="review">Review </label>
+                            <Controller
+                                name="review"
                                 control={control}
                                 defaultValue=""
                                 render={({ field: { onChange, value } }) => (

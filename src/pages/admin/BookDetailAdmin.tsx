@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
+// import ReactQuill from 'react-quill-v2.0';
 import 'react-quill/dist/quill.snow.css';
 import Swal from 'sweetalert2';
 import { getOneBook, useDeleteDoc, useDeleteFile } from '../../hooks/UseCrud';
@@ -7,9 +8,8 @@ import { getOneBook, useDeleteDoc, useDeleteFile } from '../../hooks/UseCrud';
 import ErrorProcess from '../../components/ErrorProcess';
 import EmptyState from '../../components/EmptyState';
 import Loading from '../../components/Loading';
-
-
-
+import ReactQuill from 'react-quill';
+import ReadMore, { ReadMoreQuill } from '../../components/Readmore';
 
 export default function BookDetailAdmin() {
     const { id } = useParams<{ id: string }>();
@@ -17,6 +17,19 @@ export default function BookDetailAdmin() {
     const { deleteDocById } = useDeleteDoc();
     const { deleteFileByPath } = useDeleteFile();
     const { data, error, isLoading } = getOneBook(id ? id : '');
+
+    // reactquill display
+    const modules = {
+        toolbar: false,
+    };
+    const formats: string[] = [];
+
+    const editorStyle = {
+        border: 'none', // Menghapus border pada editor
+        boxShadow: 'none', // Menghapus shadow pada editor
+        padding: 0, // Menghapus padding pada editor
+    };
+
 
     const handleDelete = async (id: string | undefined, sampul: string): Promise<void> => {
         try {
@@ -82,15 +95,23 @@ export default function BookDetailAdmin() {
                             <div className="md:w-3/4 text-justify">
                                 <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-[18px] text-[#333333]">{data.title}</h3>
                                 <h5 className="text-base sm:text-xl text-[#372213] font-light">by <span className="font-normal">{data.author}</span></h5>
-                                <h5 className='text-base sm:text-xl  pt-2 pb-3 sm:pt-4 sm:pb-6'>Ratings :
-                                    <span className='font-medium text-amber-300'> {data.ratings}/10</span>
-                                </h5>
-                                <div className='' dangerouslySetInnerHTML={{ __html: data.sinopsis }} />
                                 <div className="mt-2">
                                     <div className='text-[#372213] text-sm sm:text-lg'>{data.pages} <span>Halaman</span></div>
                                     <div className='text-[#372213] text-sm sm:text-lg'>Pertama kali diterbitkan pada <span>{new Date(data.date.seconds * 1000).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span></div>
                                 </div>
-                                <div className="flex flex-row gap-4 mt-7 sm:mt-10">
+
+                                <div className='mt-5'>
+                                    <h5 className='text-base sm:text-xl pb-2' >Sinopsis</h5>
+                                    <ReadMore maxWords={50}>{data.sinopsis}</ReadMore>
+                                </div>
+                                <div className='mt-5'>
+                                    <h5 className='text-base sm:text-xl  pb-2' >Review</h5>
+                                    <ReadMoreQuill text={data.review} maxWords={50} />
+                                </div>
+                                <h5 className='text-base sm:text-xl  pt-2 pb-3 sm:pt-4 sm:pb-6'>Ratings :
+                                    <span className='font-medium text-amber-300'> {data.ratings}/10</span>
+                                </h5>
+                                <div className="flex flex-row gap-4 mt-3 sm:mt-5">
                                     <Link to={"/admin/editBook/" + id} className="py-1 px-8 text-sm rounded-md sm:text-base sm:py-2 sm:px-12 sm:rounded-lg text-white bg-blue-400 hover:bg-blue-500 duration-150">Edit</Link>
                                     <button onClick={() => handleDelete(id, data.sampul)} className="py-1 px-8 text-sm rounded-md sm:text-base sm:py-2 sm:px-12 sm:rounded-lg text-white bg-red-400 hover:bg-red-500 duration-150">hapus</button>
                                 </div>
